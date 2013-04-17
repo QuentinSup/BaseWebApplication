@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="format-detection" content="telephone=yes" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+		<link rel="stylesheet" type="text/css" href="css/vendor/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/vendor/google-skin.css" />
+        <link rel="stylesheet" type="text/css" href="css/index.less" />
+        <title>Application</title>
+    </head>
+    <body id="template">
+        <div id="main">
+            <div class="head row-fluid">
+                <div class="span12">
+                	<span data-bind="text: app.title"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scrips -->
+
+        <!-- jQuery -->
+        <script type="text/javascript" src="js/vendor/jquery.min.js"></script>
+        <!-- Knockout -->
+        <script type="text/javascript" src="js/vendor/knockout.min.js"></script>
+		<!-- Main -->
+        <script type="text/javascript" src="js/index.js"></script>
+
+        <script type="text/javascript">
+
+        	app.run();
+
+        </script>
+    </body>
+</html>
