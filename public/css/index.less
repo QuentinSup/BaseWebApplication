@@ -171,14 +171,14 @@ fieldset > legend {
 @viewLeftWidth: 200px;
 @viewRightWidth: 200px;
 @viewBottomHeight: 30px;
-@viewLeftBackground: #444;
-@viewRightBackground: #444;
+@viewLeftBackground: #fff;
+@viewRightBackground: #fff;
 @viewTopBackground: #fff;
 @viewBottomBackground: #fff;
 @viewCenterBackground: #fff;
 
 .absolute() {
-	position: absolute;
+	position: absolute !important;
 	overflow: auto;
 }
 
@@ -221,6 +221,7 @@ fieldset > legend {
 	left: 0px;
 	bottom: 0px;
 	background: @viewLeftBackground;
+	height: auto !important;
 }
 
 .view-center {
@@ -240,4 +241,19 @@ fieldset > legend {
 	.absolute();
 	right: 0px;
 	background: @viewRightBackground;
+}
+
+/* jQuery UI fix */
+
+.ui-resizable-s { bottom: 0px; }
+.ui-resizable-e { right: 0px; }
+.ui-resizable-w { left: 0px; }
+.ui-resizable-n { top: 0px; }
+.ui-resizable-handle {
+
+	width: 3px;
+
+	&:hover { .bw-gradient(#dedede, 255, 233); }
+	&:active { background: @fieldHoverBorderColor; }
+
 }

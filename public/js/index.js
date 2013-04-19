@@ -1,23 +1,35 @@
-window.app = (function() {
+var app = (function() {
 
-	var view = {
-		app: {
-			title: ko.observable('Application Title')
+	var _makeViewResizable = function($view, handles) {
+		if($view.attr('data-resizable') == 'true') {
+			$view.resizable({ handles: handles, ghost: false });
 		}
 	};
 
 	var run = function() {
+
 		$(document).ready(function() {
+
+			var view = {
+				app: {
+					title: ko.observable('Application Title')
+				}
+			};
+
 			document.title = view.app.title();
 			ko.applyBindings(view,  $('#template')[0]);
 
 			$('.view-container').each(function() {
 				var $this = $(this);
 				var $viewTop = $this.find('> .view-top');
+					_makeViewResizable($viewTop, 's');
 				var $viewLeft = $this.find('> .view-left');
+					_makeViewResizable($viewLeft, 'e');
 				var $viewRight = $this.find('> .view-right');
+					_makeViewResizable($viewRight, 'w');
 				var $viewCenter = $this.find('> .view-center');
 				var $viewBottom = $this.find('> .view-bottom');
+					_makeViewResizable($viewBottom, 'n');
 
 				$viewLeft.css({ top: $viewTop.height() || 0, bottom: $viewBottom.height() || 0 });
 				$viewRight.css({ top: $viewTop.height() || 0, bottom: $viewBottom.height() || 0 });
@@ -45,9 +57,11 @@ window.app = (function() {
 		});
 	};
 
-	return {
+
+	var exports = {
 		run: run
 	};
 
+	return exports;
+
 })();
-	

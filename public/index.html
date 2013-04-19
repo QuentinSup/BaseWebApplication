@@ -4,8 +4,12 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="format-detection" content="telephone=yes" />
         <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+
 		<link rel="stylesheet" type="text/css" href="css/vendor/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="css/vendor/ui-lightness/jquery-ui-1.10.2.custom.min.css" />
+
         <link rel="stylesheet" type="text/css" href="css/index.less" />
+
         <title>Application</title>
     </head>
     <body id="template">
@@ -17,21 +21,27 @@
                     </div>
                 </div>
             </div>
-            <div class="view-left">
+            <div class="view-left" data-resizable="true">
                 <div class="row-fluid">
                     Left pannel
+                    <ul>
+                        <li><a href="#simpleText">Menu 1</a></li>
+                        <li><a href="#">Menu 2</a></li>
+                    </ul>
                 </div>
             </div>
             <div class="view-center text">
                 <div class="row-fluid">
-                    <div class="span12">Center Pannel</div>
-                    <div class="span6">
-                        <div class="ui-dialog text">
-                            Text...
+                    Center Pannel
+                    <div id="simpleText" class="row-fluid">
+                        <div class="span6">
+                            <div class="ui-dialog text">
+                                Text...
+                            </div>
                         </div>
                     </div>
-                    <div class="span12">
-                        <div class="row-fluid">
+                    <div id="simpleText" class="row-fluid">
+                        <div>
                             <h1>Form</h1>
                             <form>
                                 <fieldset>
@@ -89,21 +99,21 @@
             </div>
         </div>
 
-        <!-- Scrips -->
-
-        <!-- jQuery -->
-        <script type="text/javascript" src="js/vendor/jquery.min.js"></script>
+        <!-- Require JS -->
+        <script type="text/javascript" src="js/vendor/jquery-1.9.1.min.js"></script>
+        <script type="text/javascript" src="js/vendor/jquery-ui-core.min.js"></script>
+        <script type="text/javascript" src="js/vendor/knockout.min.js"></script>
         <script type="text/javascript" src="js/vendor/jquery-resize.min.js"></script>
 
-        <!-- Knockout -->
-        <script type="text/javascript" src="js/vendor/knockout.min.js"></script>
-		<!-- Main -->
+
+        <script type="text/javascript" src="js/vendor/require.min.js"></script>
+        <script type="text/javascript" src="js/config.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
 
         <script type="text/javascript">
 
             // Run app
-        	app.run();
+            app.run();
 
         </script>
     </body>
