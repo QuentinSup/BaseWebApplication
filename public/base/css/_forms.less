@@ -1,0 +1,89 @@
+
+.fieldgrad-default {
+	.bw-gradient(#dedede, 255, 233);
+}
+
+.fieldgrad-active {
+	.bw-gradient(#444, 68, 34);
+	color: #fff;
+}
+
+.fieldgrad-orange {
+	.bw-gradient(orange, 68, 34);
+	color: #fff;
+}
+
+form {
+	margin: 0px;
+	padding: 0px;
+}
+
+input, select, textarea, button, a[data-role="button"] {
+	padding: @spacing;
+	min-width: 250px;
+	border: 1px solid @fieldBorderColor;
+	box-sizing: border-box;
+	display: inline-block;
+	vertical-align: middle;
+	font-family	: @familyFont;
+	line-height: @lineHeight;
+	.rounded(@fieldborderRadius);
+	.box-sizing();
+
+	&:hover, &:focus {
+		border-color: @fieldHoverBorderColor;
+	}
+
+	&.fullsize {
+		min-width: auto;
+		width: 100%;
+	}
+
+}
+
+textarea {
+	width: 100%;
+}
+
+input[type="checkbox"] {
+	min-width: auto !important;
+	margin: auto @spacing;
+}
+
+button,
+input[type="button"],
+a[data-role="button"] {
+	min-width: 100px;
+	padding: @spacing * 1.5 @spacing * 2;
+	background: #fff;
+	cursor: pointer;
+	color: @textColor;
+	text-align: center;
+	.fieldgrad-default;
+
+	&:active {
+		border-color: @fieldActiveBorderColor;	
+		.fieldgrad-active;
+	}	
+}
+
+fieldset {
+	.rounded(@fieldborderRadius);
+	margin: @spacing 0px;
+	padding: @spacing * 2;
+	border: 1px solid @fieldBorderColor;
+}
+
+fieldset > legend {
+	font-size: 0.9em;
+	color: @titleColor;
+}
+
+form > * {
+	margin: @spacing 0px;
+}
+
+form label {
+	text-align: right;
+	text-shadow: 1px 0px 0px #fefefe;
+}

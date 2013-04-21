@@ -1,0 +1,25 @@
+@import '_vars';
+@import 'base';
+
+@headerHeight: 30px;
+
+body {
+	padding-top : @headerHeight;
+}
+
+#header {
+
+	height: @headerHeight;
+	position: fixed;
+	z-index: 1000;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+
+	.bw-gradient(#444, 68, 34);
+
+	> h1 {
+		color: #ddd;
+		font-size: 1.5em;
+	}
+}

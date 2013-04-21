@@ -5,116 +5,183 @@
         <meta name="format-detection" content="telephone=yes" />
         <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
 
-		<link rel="stylesheet" type="text/css" href="css/vendor/bootstrap.min.css" />
-        <link rel="stylesheet" type="text/css" href="css/vendor/ui-lightness/jquery-ui-1.10.2.custom.min.css" />
+		<link rel="stylesheet" type="text/css" href="base/css/vendor/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="base/css/vendor/ui-lightness/jquery-ui-1.10.2.custom.min.css" />
 
-        <link rel="stylesheet" type="text/css" href="css/index.less" />
+        <link rel="stylesheet" type="text/css" href="css/app.less" />
 
-        <title>Application</title>
     </head>
-    <body id="template">
-        <div id="main" class="view-container">
-            <div class="view-top">
-                <div class="row-fluid">
-                    <div>
-                    	<h1 data-bind="text: app.title"></h1>
-                    </div>
-                </div>
-            </div>
-            <div class="view-left" data-resizable="true">
-                <div class="row-fluid">
-                    Left pannel
-                    <ul>
-                        <li><a href="#simpleText">Menu 1</a></li>
-                        <li><a href="#">Menu 2</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="view-center text">
-                <div class="row-fluid">
-                    Center Pannel
-                    <div id="simpleText" class="row-fluid">
-                        <div class="span6">
-                            <div class="ui-dialog text">
-                                Text...
-                            </div>
+    <body id="template" class="row-fluid">
+
+        <div id="header" class="text">
+            <h1 data-bind="text: app.title"></h1>
+        </div>
+
+        <div id="main" class="body">
+            <div class="row-fluid">
+                <div class="span9">
+                    <div id="search" class="row-fluid" data-role="section">
+                        <div class="text">
+                            <h1>Bienvenue</h1>
+                            Bienvenue sur le bon coin, le premier site de petites annonces au monde !
                         </div>
+                        <form class="ui-box text"  style="background: rgb(83, 153, 185); color: #fff;">
+                            <div>Rechercher</div>
+                            <div>
+                                <input type="text" class="fullsize" />
+                            </div>
+                            <div class="align-right">
+                                <button class="fieldgrad-orange">Go !</button>
+                            </div>
+                        </form>
                     </div>
-                    <div id="simpleText" class="row-fluid">
-                        <div>
-                            <h1>Form</h1>
-                            <form>
-                                <fieldset>
-                                    <legend>Group</legend>
-                                    <div class="row-fluid">
-                                        <div class="span4"><label>Text<label></div>
-                                        <div class="span8"><input type="text" /></div>
-                                    </div>
-                                </fieldset>
+
+                    <div id="rows" class="ui-box">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Annonce</th>
+                                    <th>Prix</th>
+                                </tr>
+                            </thead>
+                            <tbody data-role="list" data-bind="foreach: rows">
+                                <tr>
+                                    <td>
+                                        <!-- ko if: doc["thumbs[]"] && doc["thumbs[]"].length > 0 --> 
+                                        <div class="img"><img src="" data-bind="attr: { src: doc['thumbs[]'][0] }" /></div>
+                                        <!-- /ko -->
+                                    </td>
+                                    <td>
+                                        <a data-bind="text: doc.title"></a>
+                                        <div data-bind="text: doc.description"></div>
+                                    </td>
+                                    <td>
+                                        <label data-bind="text: doc.price"></label>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="create" class="row-fluid" data-role="section">
+                        <div class="ui-box">
+                            <div class="ui-box-title">Déposer une annonce</div>
+                            <form class="text">
                                 <div class="row-fluid">
-                                    <div class="span4"><label>Checkbox<label></div>
-                                    <div class="span8"><input type="checkbox" /><label>label</label></div>
+                                    <div class="span2"><label>Titre de l'annonce</label></div>
+                                    <div class="span10"><input type="text" data-bind="value: title" placeholder="Titre..." /></div>
                                 </div>
                                 <div class="row-fluid">
-                                    <div class="span4"><label>Password<label></div>
-                                    <div class="span8"><input type="password" /></div>
+                                    <div class="span2"><label>Texte de l'annonce</label></div>
+                                    <div class="span10"><textarea rows="10" data-bind="value: description" placeholder="Décrivez ici votre annonce..."></textarea></div>
                                 </div>
                                 <div class="row-fluid">
-                                    <div class="span4"><label>Select<label></div>
-                                    <div class="span8">
-                                        <select>
-                                            <option>Option 1</option>
-                                            <option>Option 2</option>
-                                        </select>
-                                    </div>
+                                    <div class="span2"><label>Prix</label></div>
+                                    <div class="span10"><input type="text" data-bind="value: price" /></div>
                                 </div>
-                                <div class="row-fluid">
-                                    <div class="span4"><label>Textarea<label></div>
-                                    <div class="span8">
-                                        <textarea></textarea>
-                                    </div>
-                                </div>
-                                <div class="row-fluid">
-                                    <div class="align-right spaced">
-                                        <input type="button" value="Valider" />
-                                        <button type="button">Valider</button>
-                                        <a data-role="button">Valider</a>
-                                    </div>
+                                <div class="align-right">
+                                    <button data-bind="click: create">Valider</button>
                                 </div>
                             </form>
                         </div>
-                        <div class="row-fluid">
-                            <div class="span12" style="position: relative; height:100px">
-                                <div class="view-container">
-                                    <div class="view-top">top</div>
-                                    <div class="view-left">left</div>
-                                    <div class="view-right">right</div>
-                                    <div class="view-bottom">bottom</div>
-                                    <div class="view-center">center</div>
-                                </div>
-                            </div>
-                        </div>
+                    </div>
+
+                </div>
+                <div class="span3">
+                    <div class="ui-box">
+                        <ul data-role="list">
+                            <li><a href="#search">Rechercher une annonce</a></li>
+                            <li><a href="#create">Déposer une annonce</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Require JS -->
-        <script type="text/javascript" src="js/vendor/jquery-1.9.1.min.js"></script>
-        <script type="text/javascript" src="js/vendor/jquery-ui-core.min.js"></script>
-        <script type="text/javascript" src="js/vendor/knockout.min.js"></script>
-        <script type="text/javascript" src="js/vendor/jquery-resize.min.js"></script>
+        <script type="text/javascript" src="base/js/vendor/jquery-1.9.1.min.js"></script>
+        <script type="text/javascript" src="base/js/vendor/jquery-ui-core.min.js"></script>
+        <script type="text/javascript" src="base/js/vendor/knockout.min.js"></script>
+        <script type="text/javascript" src="base/js/vendor/jquery-resize.min.js"></script>
+        <script type="text/javascript" src="base/js/vendor/jquery-hashchange.min.js"></script>
 
-
-        <script type="text/javascript" src="js/vendor/require.min.js"></script>
-        <script type="text/javascript" src="js/config.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="base/js/base.js"></script>
 
         <script type="text/javascript">
 
             // Run app
-            app.run();
+        
+            (function() {
 
+                var list = function() {
+                  $.ajax({
+                        method: 'GET',
+                        url:'couchdb/?id=*'
+                    }).done(function(rows) {
+                        console.log('listed', rows);
+                        view.rows(rows);
+                    }).fail(function() {
+                        console.log('failed');
+                    });
+                };
+
+                var create = function() {
+                    var doc = {
+                        id: new Date().getTime(),
+                        title: view.title(),
+                        description: view.description(),
+                        price: view.price(),
+                        thumbs: ['http://193.164.196.40/thumbs/163/163321038318937.jpg', 'http://193.164.196.30/thumbs/618/618325010063928.jpg']
+                    }
+
+                    $.ajax({
+                        method: 'POST',
+                        url:'couchdb/', 
+                        data: doc
+                    }).done(function() {
+                        list();
+                        location.hash = 'rows';
+                    }).fail(function() {
+                        console.log('failed');
+                    });
+
+                };
+
+                var view = {
+                    title: ko.observable(''),
+                    description: ko.observable(''),
+                    price: ko.observable(''),
+                    create:  create,
+                    rows: ko.observableArray(),
+                    app: {
+                        title: ko.observable('Le bon coin')
+                    }
+                };
+
+                list();
+
+                app.run(view);
+
+                setInterval(function() {
+                    console.log('+1');
+                    $('img').each(function() {
+                        var data = ko.dataFor(this);
+                        if(data && data.doc) {
+                            console.log(data);
+                            $this = $(this);
+                            var thumbs = data.doc['thumbs[]'];
+                            var index = ($this.data('img.index') || 0) + 1;
+                            if(index >= thumbs.length) {
+                                index = 0;
+                            }
+                            $this.data('img.index', index).fadeOut('fast', function() { $(this).attr('src', data.doc['thumbs[]'][index]).fadeIn(); });
+                        }
+
+                    });
+                }, 4000);
+
+            })();
         </script>
     </body>
 </html>

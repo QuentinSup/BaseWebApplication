@@ -1,0 +1,85 @@
+
+.app-view > .uispace-top {
+	height: @viewTopHeight;
+}
+
+.app-view > .uispace-bottom {
+	height: @viewBottomHeight;
+}
+
+
+.app-view > .uispace-left {
+	width: @viewLeftWidth;
+}
+
+.app-view > .uispace-right {
+	width: @viewRightWidth;
+}
+
+h1.uispace-top {
+	display: block;
+	margin: 0px;
+	padding: @spacing / 2 @spacing * 2;
+	color: gray;
+	background-color: #ededed;
+	font-weight: normal;
+	text-shadow: 1px 0px 0px #fff;
+	font-size:0.9em;
+}
+
+.uispace {
+	.frame();
+	background: #dedede;
+}
+
+.uispace-top {
+	.absolute();
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	background: @viewTopBackground;
+}
+
+.uispace-left {
+	.absolute();
+	left: 0px;
+	bottom: 0px;
+	background: @viewLeftBackground;
+	height: auto !important;
+}
+
+.uispace-center {
+	.absolute();
+	background: @viewCenterBackground;
+}
+
+.uispace-bottom {
+	.absolute();
+	bottom: 0px;
+	left : 0px;
+	right: 0px;
+	top: auto !important;
+	background: @viewBottomBackground;
+}
+
+.uispace-right {
+	.absolute();
+	right: 0px;
+	background: @viewRightBackground;
+	height: auto !important;
+	left: auto !important;
+}
+
+
+/* jQuery UI fix */
+
+.ui-resizable-s { bottom: 0px; 	height: 3px; }
+.ui-resizable-e { right: 0px; 	width: 3px; }
+.ui-resizable-w { left: 0px;  width: 3px; }
+.ui-resizable-n { top: 0px; height: 3px; }
+.ui-resizable-handle {
+
+	&:hover { .bw-gradient(#dedede, 255, 233); }
+	&:active { background: @fieldHoverBorderColor; }
+
+}

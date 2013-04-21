@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="format-detection" content="telephone=yes" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+
+		<link rel="stylesheet" type="text/css" href="css/vendor/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="css/vendor/ui-lightness/jquery-ui-1.10.2.custom.min.css" />
+
+        <link rel="stylesheet" type="text/css" href="css/doc.less" />
+
+        <style>
+
+            #uispace .uispace-left, 
+            #uispace .uispace-right {
+                background: whitesmoke;
+            }
+
+            #uispace .uispace-top, 
+            #uispace .uispace-bottom {
+                background: #d2d3d4;
+            }
+
+        </style>
+
+    </head>
+    <body id="template" class="row-fluid">
+        <div id="header" class="text">
+            <h1 data-bind="text: app.title"></h1>
+        </div>
+        <div id="main" class="body">
+            <div class="row-fluid">
+                <div class="span3">
+                    <div class="ui-box">
+                        <div class="ui-box-title">
+                            Menu
+                        </div>
+                        <ul data-role="list">
+                            <li><a href="#standard">Standard</a></li>
+                            <li><a href="#uidialog">UI Dialog</a></li>
+                            <li><a href="#uispace">UI Space</a></li>
+                            <li><a href="#form">Form</a></li>
+                            <li><a href="#notifications">Notification</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="offset0 span9">
+                    <div>
+                        <div id="standard" data-role="section" class="row-fluid">
+                            <div class="ui-box">
+                                <div class="ui-box-title">Standard</div>
+                                <div class="padding2">
+                                    <h1>H1</h1>
+                                    <h2>H2</h2>
+                                    <h3>H3</h3>
+                                    <h4>H4</h4>
+                                    <h5>H5</h5>
+                                    <h6>H6</h6>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="notifications" data-role="section" class="row-fluid">
+                            <div class="ui-box">
+                                <div class="ui-box-title">Notifications</div>
+                                <div class="padding2">
+                                    <div class="notif">
+                                        Defaut notification
+                                    </div>
+                                    <div class="notif info">
+                                        Info notification
+                                    </div>
+                                    <div class="notif warn">
+                                        Warn notification
+                                    </div>
+                                    <div class="notif error">
+                                        Error notification
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="uidialog" data-role="section" class="row-fluid">
+                            <div class="ui-box">
+                                <div class="ui-box-title">UI Dialog</div>
+                                <div class="padding2">
+                                    <div class="ui-dialog">
+                                        <div class="text">
+                                            Text...
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="form" data-role="section" class="row-fluid">
+                            <div class="ui-box">
+                                <div class="ui-box-title">Form</div>
+                                <form class="padding2" class="form-horizontal">
+                                    <fieldset>
+                                        <legend>Group</legend>
+                                        <div class="row-fluid">
+                                            <div class="span4"><label>Text</label></div>
+                                            <div class="span8"><input type="text" /></div>
+                                        </div>
+                                    </fieldset>
+                                    <div class="row-fluid">
+                                        <div class="span4"><label>Checkbox</label></div>
+                                        <div class="span8"><input type="checkbox" /><label>label</label></div>
+                                    </div>
+                                    <div class="row-fluid">
+                                        <div class="span4"><label>Password</label></div>
+                                        <div class="span8"><input type="password" /></div>
+                                    </div>
+                                    <div class="row-fluid">
+                                        <div class="span4"><label>Select</label></div>
+                                        <div class="span8">
+                                            <select>
+                                                <option>Option 1</option>
+                                                <option>Option 2</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row-fluid">
+                                        <div class="span4"><label>Textarea</label></div>
+                                        <div class="span8">
+                                            <textarea></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="row-fluid">
+                                        <div class="align-right spaced">
+                                            <input type="button" value="Valider" />
+                                            <button type="button">Valider</button>
+                                            <a data-role="button">Valider</a>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div id="uispace" data-role="section" class="row-fluid">
+                            <div class="ui-box">
+                                <div class="ui-box-title">UI Space</div>
+                                <div class="padding2">
+                                    <div style="position: relative; height:300px">
+                                        <div class="app-view uispace">
+                                            <div class="uispace-top" data-resizable="true">Top pannel</div>
+                                            <div class="uispace-left" data-resizable="true">Left pannel</div>
+                                            <div class="uispace-right" data-resizable="true">Right pannel</div>
+                                            <div class="uispace-bottom" data-resizable="true">Bottom pannel</div>
+                                            <div class="uispace-center">
+                                                <div class="uispace">
+                                                    <h1 class="uispace-top">Center pannel title</h1>
+                                                    <div class="uispace-center">
+                                                        Center pannel
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Require JS -->
+        <script type="text/javascript" src="js/vendor/jquery-1.9.1.min.js"></script>
+        <script type="text/javascript" src="js/vendor/jquery-ui-core.min.js"></script>
+        <script type="text/javascript" src="js/vendor/knockout.min.js"></script>
+        <script type="text/javascript" src="js/vendor/jquery-resize.min.js"></script>
+        <script type="text/javascript" src="js/vendor/jquery-hashchange.min.js"></script>
+
+        <script type="text/javascript" src="js/base.js"></script>
+
+        <script type="text/javascript">
+
+            // Run app
+            app.run({ title: 'Documentation' });
+
+        </script>
+    </body>
+</html>

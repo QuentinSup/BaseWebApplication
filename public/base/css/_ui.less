@@ -1,0 +1,54 @@
+@haloSize: 5px;
+@haloColor: #444;
+
+.ui-halo(@size: @haloSize, @radius: @borderRadiusOutset, @color: @haloColor) {
+	position: relative;
+	margin: @size + 1;
+	.rounded(@borderRadiusOutset - 1);
+	z-index: 1;
+
+	&:after {
+		.mask-after(@size, @radius, @color);
+	}
+
+}
+
+.ui-halo > div {
+	.rounded(@borderRadiusInset);
+}
+
+
+.ui-dialog {
+	.ui-halo;
+	background: @uiBackground;
+
+	& h1 {
+		border-bottom: 5px solid @titleColor;
+	}
+
+	& > div, > form {
+		.text;
+		.rounded(@borderRadiusInset);
+	}
+}
+
+.ui-box {
+
+	.ui-halo(4px, @borderRadiusOutset, #ccc);
+	background: #fff;
+	border: 1px solid @fieldBorderColor;
+
+	& .ui-box-title {
+		.bw-gradient(#dedede, 230, 240);
+		padding: @spacing * 2 @spacing * 2;
+		color: #333;
+		text-shadow: 1px 0px 0px #fff;
+		font-weight: bold;
+		margin: 0px;
+		border-bottom: 1px solid @fieldBorderColor;
+		line-height: 1.0em;
+		color: @titleColor;
+		margin: 0px;
+	}
+
+}

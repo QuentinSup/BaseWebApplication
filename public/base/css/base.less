@@ -1,0 +1,216 @@
+@import "less/_elements";
+@import "_uispace";
+@import "_forms";
+@import "_ui";
+@import "_notifications";
+
+.mask-after(@size, @radius, @color) {
+	content: '';
+	position: absolute;
+	display: block;
+	z-index: -1;
+	border: @size solid @color;
+	top: -@size;
+	bottom: -@size;
+	left: -@size;	
+	right: -@size;	
+	.rounded(@radius);
+	.opacity(0.8);
+}
+
+body {
+	font-size	: @fontSize;
+	color		: @textColor;
+	background-color: @backgroundPage;
+	font-family	: @familyFont;
+	line-height	: @lineHeight;
+}
+
+body, html {
+	padding: 0px;
+	margin: 0px;
+	width: 100%;
+	height: 100%;
+}
+
+.spaced, .text {
+	padding: @spacing * 2;
+}
+
+.align-right {
+	text-align: right;
+}
+
+.padding(@multiplier: 1) {
+	padding: @spacing * @multiplier;
+}
+
+.padding {
+	.padding();
+}
+
+.padding2 {
+	.padding(2);
+}
+
+.padding3 {
+	.padding(3);
+}
+
+h1 {
+	font-size: 1.8em;
+}
+
+h2 {
+	font-size: 1.6em;
+}
+
+h3 {
+	font-size: 1.5em;
+}
+
+h4 {
+	font-size: 1.4em;
+}
+
+h5 {
+	font-size: 1.3em;
+}
+
+h6 {
+	font-size: 1.1em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	line-height: 1.0em;
+	color: @titleColor;
+	font-weight: normal;
+	margin: @spacing 0px;
+	margin-bottom: @spacing * 2;
+}
+
+a {
+	color: @aColor;
+	cursor: pointer;
+}
+
+a:hover {
+	color: @aHoverColor;
+}
+
+.clear {
+
+	margin: 0px;
+	padding: 0px;
+
+	& > li {
+		padding-left: @spacing * 2;
+		list-style: none;
+	}	
+}
+
+.absolute {
+	position: absolute !important;
+	overflow: auto;
+}
+
+.frame {
+	.absolute();
+	top: 0px;
+	left: 0px;
+	bottom: 0px;
+	right: 0px;	
+}
+
+
+ul[data-role="list"], ol[data-role="list"],
+[data-role="list"] > ul, [data-role="list"] > ol {
+	
+	.clear();
+
+	& > li {
+		position: relative;
+		border-bottom: 1px solid #dedede;
+		min-height: @fontSize + @spacing * 5;
+
+		&.selected > a {
+			border-color: @fieldActiveBorderColor;	
+			.bw-gradient(#444, 68, 34);
+			color: #fff;
+		}
+
+	}
+
+	& > li > a {
+		.frame();
+		text-decoration: none;
+		line-height: @fontSize + @spacing * 5;
+		padding: 0px @spacing * 2;
+		display: block;
+		cursor: pointer;
+
+		&:hover {
+
+		}
+	}
+
+}
+
+div[data-role="section"] {
+	display: none;
+}
+
+.body {
+	position: absolute;
+	width: @bodyWidth;
+	margin-top: @bodyPositionTop;
+	margin-left: -@bodyWidth / 2 !important;
+	left: 50%;
+	background: @bodyBackground;
+}
+
+@media screen and (max-width:@bodyWidth) {
+
+	.body {
+		width: 100% !important;
+		left: 0px !important;
+		margin: 0px !important;
+		position: relative !important;
+	}
+
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+	.rounded(@borderRadius);
+	border:1px solid @fieldBorderColor;
+}
+
+table.separate {
+	border-collapse: separate;
+}
+
+table > thead th {
+	text-align: left;
+	background-color: #f7f7f7;
+	padding: @spacing;
+	font-weight: bold;
+}
+
+table > tbody > tr > td {
+	padding: @spacing * 2;
+	border-top: 1px solid @fieldBorderColor;
+	min-width: 16px;
+	vertical-align: top;
+	height: 80px;
+}
+
+.img {
+	.ui-halo(3px, @borderRadius, #dedede);
+		border: 1px solid #fff;
+}
+
+.img > img {
+	.rounded(@borderRadius - 2);
+}
