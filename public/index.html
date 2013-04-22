@@ -37,6 +37,7 @@
                     </div>
 
                     <div id="rows" class="ui-box">
+                        <button data-bind="click: extract">Extract</button>
                         <table>
                             <thead>
                                 <tr>
@@ -48,8 +49,11 @@
                             <tbody data-role="list" data-bind="foreach: rows">
                                 <tr>
                                     <td>
-                                        <!-- ko if: doc["thumbs[]"] && doc["thumbs[]"].length > 0 --> 
-                                        <div class="img"><img src="" data-bind="attr: { src: doc['thumbs[]'][0] }" /></div>
+                                        <!-- ko if: typeof(doc["thumbs[]"]) == 'array' && doc["thumbs[]"].length > 1 --> 
+                                        <div class="img" style="width:90px"><img src="" data-bind="attr: { src: doc['thumbs[]'][0] }" /></div>
+                                        <!-- /ko -->
+                                        <!-- ko if: typeof(doc["thumbs[]"]) == 'string' --> 
+                                        <div class="img" style="width:90px"><img src="" data-bind="attr: { src: doc['thumbs[]'] }" /></div>
                                         <!-- /ko -->
                                     </td>
                                     <td>
@@ -114,6 +118,46 @@
         
             (function() {
 
+                var extract = function() {
+                    
+
+                    jQuery.ajax({
+                        method: 'GET',
+                        url:'lbc/?url=' + encodeURIComponent('http://www.leboncoin.fr/animaux/offres/rhone_alpes/?f=a&th=1&q=chatons'),
+                    }).always(function(html, status, xhqr) {
+
+                        html = /<body[\s.\S]*>([\s.\S]*)<\/body>/gi.exec(html);
+              
+                        $(html[0]).find('div.list-lbc > a').each(function() {
+                            var $this = $(this);
+                            var $lbc = $this.find('.lbc');
+                            var $details = $lbc.find('.detail');
+                            var doc = {
+                                id: $this.attr('href'),
+                                link: $this.attr('href'),
+                                date: new Date().getTime(),
+                                title: $details.find('.title').text(),
+                                price: $details.find('.price').text(),
+                                category: $details.find('.category').text(),
+                                placement: $details.find('.placement').text(),
+                                thumbs: [$lbc.find('.image img').attr('src')]
+                            };
+
+                            $.ajax({
+                                method: 'GET',
+                                url: 'lbc/?url=' + encodeURIComponent(doc.id)
+                            }).done(function(html) {
+                                html = /<body[\s.\S]*>([\s.\S]*)<\/body>/gi.exec(html);
+                                doc.description = $(html[0]).find('.AdviewContent > .content').text();
+                                _create(doc);
+                            }).fail(function() {
+                                console.log('failed');
+                            });
+                        });
+
+                    });
+                };
+
                 var list = function() {
                   $.ajax({
                         method: 'GET',
@@ -126,14 +170,7 @@
                     });
                 };
 
-                var create = function() {
-                    var doc = {
-                        id: new Date().getTime(),
-                        title: view.title(),
-                        description: view.description(),
-                        price: view.price(),
-                        thumbs: ['http://193.164.196.40/thumbs/163/163321038318937.jpg', 'http://193.164.196.30/thumbs/618/618325010063928.jpg']
-                    }
+                var _create = function(doc) {
 
                     $.ajax({
                         method: 'POST',
@@ -148,11 +185,25 @@
 
                 };
 
+                var create = function() {
+                    var doc = {
+                        id: new Date().getTime(),
+                        title: view.title(),
+                        description: view.description(),
+                        price: view.price(),
+                        thumbs: ['http://193.164.196.40/thumbs/163/163321038318937.jpg', 'http://193.164.196.30/thumbs/618/618325010063928.jpg']
+                    }
+
+                    _create(doc);
+
+                };
+
                 var view = {
                     title: ko.observable(''),
                     description: ko.observable(''),
                     price: ko.observable(''),
                     create:  create,
+                    extract: extract,
                     rows: ko.observableArray(),
                     app: {
                         title: ko.observable('Le bon coin')
@@ -163,7 +214,7 @@
 
                 app.run(view);
 
-                setInterval(function() {
+                /*setInterval(function() {
                     console.log('+1');
                     $('img').each(function() {
                         var data = ko.dataFor(this);
@@ -179,7 +230,11 @@
                         }
 
                     });
-                }, 4000);
+                }, 4000); */
+
+                setInterval(function() {
+                    //extract();
+                }, 30000);
 
             })();
         </script>
