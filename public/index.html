@@ -123,7 +123,7 @@
 
                     jQuery.ajax({
                         method: 'GET',
-                        url:'lbc/?url=' + encodeURIComponent('http://www.leboncoin.fr/animaux/offres/rhone_alpes/?f=a&th=1&q=chatons'),
+                        url:'xdomain/?url=' + encodeURIComponent('http://www.leboncoin.fr/animaux/offres/rhone_alpes/?f=a&th=1&q=chatons'),
                     }).always(function(html, status, xhqr) {
 
                         html = /<body[\s.\S]*>([\s.\S]*)<\/body>/gi.exec(html);
@@ -145,7 +145,7 @@
 
                             $.ajax({
                                 method: 'GET',
-                                url: 'lbc/?url=' + encodeURIComponent(doc.id)
+                                url: 'xdomain/?url=' + encodeURIComponent(doc.id)
                             }).done(function(html) {
                                 html = /<body[\s.\S]*>([\s.\S]*)<\/body>/gi.exec(html);
                                 doc.description = $(html[0]).find('.AdviewContent > .content').text();
