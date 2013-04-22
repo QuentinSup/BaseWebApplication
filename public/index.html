@@ -58,7 +58,9 @@
                                     </td>
                                     <td>
                                         <a data-bind="text: doc.title"></a>
-                                        <div data-bind="text: doc.description"></div>
+                                        <div>
+                                            <label style="width:500px" class="truncate" data-bind="text: doc.description"></label>
+                                        </div>
                                     </td>
                                     <td>
                                         <label data-bind="text: doc.price"></label>
