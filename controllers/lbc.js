@@ -4,22 +4,25 @@ var cheerio = require('cheerio');
 //http://projets.jpmonette.net/feed
 var Feed = require('feed');
 
+
 // Load server plugin 'couchdb'
 var couchdb = server.require('couchdb');
 
 server;
 
+
+var _currentWatchUrl = null;
+
 var getHttpContent = function(url, fn) {
+
 	return http.get(url, function(res) {
 		var html = '';
-		res.setEncoding('ascii');
-			
 	    res.on("data", function(chunk) {
-			html += chunk;
+			html += server.decode(chunk, "iso-8859-15");1
 		}).on('end', function() {
 			fn(null, html);
 		}).on('error', function(err) {
-			fn(err, html);
+			fn(err);
 		});
 
 	});
@@ -38,12 +41,13 @@ var extract = function(url, fn) {
             var $details = $lbc.find('.detail');
             var doc = {
                 id: $this.attr('href'),
+                docType: 'announce',
                 link: $this.attr('href'),
                 date: new Date().getTime(),
-                title: $details.find('.title').text(),
-                price: $details.find('.price').text(),
-                category: $details.find('.category').text(),
-                placement: $details.find('.placement').text(),
+                title: $details.find('.title').text().trim(),
+                price: $details.find('.price').text().trim(),
+                category: $details.find('.category').text().trim(),
+                placement: $details.find('.placement').text().trim(),
                 thumbs: [$lbc.find('.image img').attr('src')]
             };
 
@@ -51,7 +55,7 @@ var extract = function(url, fn) {
             	if(err) {
 		            getHttpContent(doc.id, function(err, html) {
 		                var body = /<body[\s.\S]*>([\s.\S]*)<\/body>/gi.exec(html)[0];
-		                doc.description = $(body).find('.AdviewContent > .content').text();
+		                doc.description = $(body).find('.AdviewContent > .content').text().trim();
 		                server.echo('lbc', 'loading'.data, doc.id);
 		                couchdb.insert(doc.id, doc, function(err, xdoc) {
 		                	if(err) {
@@ -77,11 +81,11 @@ var lbc = (function() {
 	var run = function(response, request, params) {
 		if(request.method == 'GET') {
 			if(params.action == 'watch') {
-				var url = request.path.query.url;
-				if(url) {
-					extract(url);
+				_currentWatchUrl = request.path.query.url;
+				if(_currentWatchUrl) {
+					extract(_currentWatchUrl);
 					setInterval(function() {
-						extract(url);
+						extract(_currentWatchUrl);
 					}, 60000);
 					server.quickr(response, 200);	
 				} else {
@@ -101,8 +105,8 @@ var lbc = (function() {
 				console.log('RSS'.info);
 				var feed = new Feed({
 				    title:        'Recherche sur le bon coin',
-				    description:  'Recherche de chatons',
-				    link:         'http://www.leboncoin.fr/animaux/offres/rhone_alpes/?f=a&th=1&q=chatons',
+				    description:  'Recherche',
+				    link:         _currentWatchUrl,
 				    copyright:    'Copyright © 2013 John Doe. All rights reserved',
 				    author: {
 				        name:     'John Doe'
@@ -119,7 +123,7 @@ var lbc = (function() {
 					    });
 					}
 					server.quickr(response, 200, feed.render('rss-2.0'), 'text/rss+xml');
-				});
+				}, { limit: 10, descending: true });
 			} else {
 				// NOT FOUND
 				server.quickr(response, 404);
