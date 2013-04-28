@@ -28,16 +28,39 @@
                         <form class="ui-box text"  style="background: rgb(83, 153, 185); color: #fff;">
                             <div>Rechercher</div>
                             <div>
-                                <input type="text" class="fullsize" />
+                                <input type="text" data-bind="value: url" class="fullsize" />
                             </div>
                             <div class="align-right">
-                                <button class="fieldgrad-orange">Go !</button>
+                                <button class="fieldgrad-orange" data-bind="click: watch">Go !</button>
                             </div>
                         </form>
                     </div>
 
-                    <div id="rows" class="ui-box">
-                        <button data-bind="click: extract">Extract</button>
+                    <div id="watchers" class="ui-box" data-role="section">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Url</th>
+                                    <th>Interval</th>
+                                </tr>
+                            </thead>
+                            <tbody data-role="list" data-bind="foreach: watchers">
+                                <tr>
+                                    <td>
+                                        <a href="" class="truncate" style="width:500px" data-bind="text: url, attr: { href: url, title: url }"></a>
+                                    </td>
+                                    <td>
+                                        <span data-bind="text: interval"></span>
+                                    </td>
+                                    <td>
+                                        <a data-bind="click: $root.stopWatch">Stop</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="rows" class="ui-box" data-role="section">
                         <table>
                             <thead>
                                 <tr>
@@ -47,17 +70,12 @@
                                 </tr>
                             </thead>
                             <tbody data-role="list" data-bind="foreach: rows">
-                                <tr>
-                                    <td>
-                                        <!-- ko if: typeof(doc["thumbs[]"]) == 'array' && doc["thumbs[]"].length > 1 --> 
-                                        <div class="img" style="width:90px"><img src="" data-bind="attr: { src: doc['thumbs[]'][0] }" /></div>
-                                        <!-- /ko -->
-                                        <!-- ko if: typeof(doc["thumbs[]"]) == 'string' --> 
-                                        <div class="img" style="width:90px"><img src="" data-bind="attr: { src: doc['thumbs[]'] }" /></div>
-                                        <!-- /ko -->
+                                <tr data-bind="if: doc.docType == 'announce'">
+                                    <td> 
+                                        <div class="img" style="width:90px"><img src="" data-bind="attr: { src: doc.thumbs[0] }" /></div>
                                     </td>
                                     <td>
-                                        <a data-bind="text: doc.title"></a>
+                                        <a href="" data-bind="text: doc.title, attr: { href: doc.link, title: doc.link }"></a>
                                         <div>
                                             <label style="width:500px" class="truncate" data-bind="text: doc.description"></label>
                                         </div>
@@ -70,35 +88,13 @@
                         </table>
                     </div>
 
-                    <div id="create" class="row-fluid" data-role="section">
-                        <div class="ui-box">
-                            <div class="ui-box-title">Déposer une annonce</div>
-                            <form class="text">
-                                <div class="row-fluid">
-                                    <div class="span2"><label>Titre de l'annonce</label></div>
-                                    <div class="span10"><input type="text" data-bind="value: title" placeholder="Titre..." /></div>
-                                </div>
-                                <div class="row-fluid">
-                                    <div class="span2"><label>Texte de l'annonce</label></div>
-                                    <div class="span10"><textarea rows="10" data-bind="value: description" placeholder="Décrivez ici votre annonce..."></textarea></div>
-                                </div>
-                                <div class="row-fluid">
-                                    <div class="span2"><label>Prix</label></div>
-                                    <div class="span10"><input type="text" data-bind="value: price" /></div>
-                                </div>
-                                <div class="align-right">
-                                    <button data-bind="click: create">Valider</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-
                 </div>
                 <div class="span3">
                     <div class="ui-box">
                         <ul data-role="list">
                             <li><a href="#search">Rechercher une annonce</a></li>
-                            <li><a href="#create">Déposer une annonce</a></li>
+                            <li><a href="#rows">Lister les annonces</a></li>
+                            <li><a href="" data-bind="click: getWatchers">Voir les watchers</a></li>
                         </ul>
                     </div>
                 </div>
@@ -120,46 +116,6 @@
         
             (function() {
 
-                var extract = function() {
-                    
-
-                    jQuery.ajax({
-                        method: 'GET',
-                        url:'xdomain/?url=' + encodeURIComponent('http://www.leboncoin.fr/animaux/offres/rhone_alpes/?f=a&th=1&q=chatons'),
-                    }).always(function(html, status, xhqr) {
-
-                        html = /<body[\s.\S]*>([\s.\S]*)<\/body>/gi.exec(html);
-              
-                        $(html[0]).find('div.list-lbc > a').each(function() {
-                            var $this = $(this);
-                            var $lbc = $this.find('.lbc');
-                            var $details = $lbc.find('.detail');
-                            var doc = {
-                                id: $this.attr('href'),
-                                link: $this.attr('href'),
-                                date: new Date().getTime(),
-                                title: $details.find('.title').text(),
-                                price: $details.find('.price').text(),
-                                category: $details.find('.category').text(),
-                                placement: $details.find('.placement').text(),
-                                thumbs: [$lbc.find('.image img').attr('src')]
-                            };
-
-                            $.ajax({
-                                method: 'GET',
-                                url: 'xdomain/?url=' + encodeURIComponent(doc.id)
-                            }).done(function(html) {
-                                html = /<body[\s.\S]*>([\s.\S]*)<\/body>/gi.exec(html);
-                                doc.description = $(html[0]).find('.AdviewContent > .content').text();
-                                _create(doc);
-                            }).fail(function() {
-                                console.log('failed');
-                            });
-                        });
-
-                    });
-                };
-
                 var list = function() {
                   $.ajax({
                         method: 'GET',
@@ -172,41 +128,57 @@
                     });
                 };
 
-                var _create = function(doc) {
-
+                var getWatchers = function() {
                     $.ajax({
-                        method: 'POST',
-                        url:'couchdb/', 
-                        data: doc
+                        method: 'GET',
+                        url:'lbc/watch/*',
+                    }).done(function(data) {
+                        var watchers = [];
+                        $.each(data, function() {
+                            watchers.push(this);
+                        });
+                        view.watchers(watchers);
+                        location.hash = 'watchers';
+                    }).fail(function() {
+                        console.log('failed');
+                    });
+                };
+
+                var stopWatch = function(data) {
+                    $.ajax({
+                        method: 'DELETE',
+                        url:'lbc/watch/' + data._id,
                     }).done(function() {
-                        list();
-                        location.hash = 'rows';
+                        getWatchers();
                     }).fail(function() {
                         console.log('failed');
                     });
 
                 };
 
-                var create = function() {
-                    var doc = {
-                        id: new Date().getTime(),
-                        title: view.title(),
-                        description: view.description(),
-                        price: view.price(),
-                        thumbs: ['http://193.164.196.40/thumbs/163/163321038318937.jpg', 'http://193.164.196.30/thumbs/618/618325010063928.jpg']
-                    }
+                var watch = function() {
 
-                    _create(doc);
+                    $.ajax({
+                        method: 'POST',
+                        url:'lbc/watch/', 
+                        data: {
+                            url: view.url()
+                        }
+                    }).done(function() {
+                        getWatchers();
+                    }).fail(function() {
+                        console.log('failed');
+                    });
 
                 };
 
                 var view = {
-                    title: ko.observable(''),
-                    description: ko.observable(''),
-                    price: ko.observable(''),
-                    create:  create,
-                    extract: extract,
+                    url: ko.observable(''),
+                    watch:  watch,
+                    getWatchers: getWatchers,
+                    stopWatch: stopWatch,
                     rows: ko.observableArray(),
+                    watchers: ko.observableArray(),
                     app: {
                         title: ko.observable('Le bon coin')
                     }
@@ -215,28 +187,8 @@
                 list();
 
                 app.run(view);
+                location.hash = 'rows';
 
-                /*setInterval(function() {
-                    console.log('+1');
-                    $('img').each(function() {
-                        var data = ko.dataFor(this);
-                        if(data && data.doc) {
-                            console.log(data);
-                            $this = $(this);
-                            var thumbs = data.doc['thumbs[]'];
-                            var index = ($this.data('img.index') || 0) + 1;
-                            if(index >= thumbs.length) {
-                                index = 0;
-                            }
-                            $this.data('img.index', index).fadeOut('fast', function() { $(this).attr('src', data.doc['thumbs[]'][index]).fadeIn(); });
-                        }
-
-                    });
-                }, 4000); */
-
-                setInterval(function() {
-                    //extract();
-                }, 30000);
 
             })();
         </script>
