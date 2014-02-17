@@ -10,18 +10,8 @@ var Feed = require('feed');
 var mustache = require('mustache');
 
 server;
-
-// Load server plugin 'couchdb'
-var couchdb = new (server.plugins('couchdb'))();
-
-var application = server.vhosts.get('lbc').application;
-
-if(application.couchdb) {
-	couchdb.connect(application.couchdb.host, application.couchdb.port, application.couchdb.protocol);
-	couchdb.use(application.couchdb.dbname);
-} else {
-	server.echo('> COUCHDB No configuration found for couchdb plugin'.red);
-}
+application;
+var couchdb = require('./couchdb.js').couchdb;
 
 var _watchers = {};
 var _template = '';
