@@ -11,7 +11,7 @@ if(application.couchdb) {
 	server.echo('> COUCHDB No configuration found for couchdb plugin'.red);
 }
 
-exports = function() {
+module.exports = function() {
 
 	var run = function(response, request, params) {
 		couchdb.run(response, request, params);

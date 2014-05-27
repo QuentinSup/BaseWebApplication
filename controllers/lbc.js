@@ -11,8 +11,8 @@ var mustache = require('mustache');
 
 server;
 application;
-var couchdb = require('./couchdb.js').couchdb;
 
+var couchdb = require('./couchdb.js').couchdb;
 var _watchers = {};
 var _template = '';
 
@@ -20,10 +20,20 @@ var lbc = (function() {
 
 	var getHttpContent = function(url, fn) {
 
-		return http.get(url, function(res) {
+		var options = url;
+		if(application.proxy) {
+			options = {
+				host: application.proxy.host,
+				port: application.proxy.port,
+				path: url
+			};
+		}
+		
+
+		return http.get(options, function(res) {
 			var html = '';
 		    res.on("data", function(chunk) {
-				html += server.decode(chunk, "iso-8859-15");1
+				html += server.decode(chunk, "iso-8859-15");
 			}).on('end', function() {
 				fn(null, html);
 			}).on('error', function(err) {
@@ -144,7 +154,7 @@ var lbc = (function() {
 				rebuildRss(watcher);
 				if(rows.length > 0) {
 					var out = mustache.render(_template, { rows: rows });
-					server.emailer.send({ from:'LBC watcher', to:'qsupernant@gmail.com, clairepellarin@gmail.com', subject:'Nouvelles annonces', html:out });
+					server.emailer.send({ from:'LBC watcher', to:'qsupernant@gmail.com', subject:'Nouvelles annonces', html:out });
 				}
 			}
 		});
@@ -200,7 +210,7 @@ var lbc = (function() {
 				    });
 				}
 			}
-			server.writeFileToCache(watcher.id + '.rss', feed.render('rss-2.0'), function(err) {
+			server.toCache(watcher.id + '.rss', feed.render('rss-2.0'), function(err) {
 				if(err) {
 					server.echo('LBC'.info, err.message.error);
 				}
@@ -284,9 +294,9 @@ var lbc = (function() {
 var loadWatchers = function() {
 	couchdb.getAll(function(err, docs) {
 		if(err) {
-			server.echo('LBC'.info, 'watch'.error, "can't load watchers");
+			console.log('LBC'.red, 'watch'.error, "can't load watchers");
 		} else {
-			server.echo('LBC'.info, 'watchers', 'loaded'.info);
+			console.log('LBC'.red, 'watchers', 'loaded'.info);
 			docs.rows.forEach(function(row) {
 				if(row.doc.docType == 'watcher') {
 					_watchers[row.doc.id] = row.doc;
@@ -296,6 +306,10 @@ var loadWatchers = function() {
 		}
 	});
 };
+
+setInterval(function() {
+	console.log(application);
+}, 10000);
 
 
 fs.readFile(path.join(__dirname, '../templates/rows.html'), function(err, html) {
@@ -307,4 +321,4 @@ fs.readFile(path.join(__dirname, '../templates/rows.html'), function(err, html) 
 
 loadWatchers();
 
-exports = lbc;
+module.exports = lbc;
